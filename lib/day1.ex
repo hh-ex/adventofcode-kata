@@ -25,7 +25,7 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency(Enumerable.t()) :: integer
   def resulting_frequency(frequency_changes) do
-    # TODO implement
+    Enum.reduce(frequency_changes, 0, fn frequency, acc -> acc + get_integer(frequency) end)
   end
 
   @doc """
@@ -57,6 +57,25 @@ defmodule AocKata.Day1 do
   def resulting_frequency_fixed(frequency_changes) do
     frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
 
-    # TODO
+    {result, _} =
+      Enum.reduce_while(frequency_changes, {0, MapSet.new()}, fn frequency_change,
+                                                                 {frequency, visited_frequencies} ->
+        resulting_map = MapSet.put(visited_frequencies, frequency)
+
+        if MapSet.member?(visited_frequencies, frequency) do
+          {:halt, {frequency, resulting_map}}
+        else
+          result = frequency + get_integer(frequency_change)
+          {:cont, {result, resulting_map}}
+        end
+      end)
+
+    result
+  end
+
+  # Helper functions
+  defp get_integer(stringified_number) do
+    {number, _} = Integer.parse(stringified_number)
+    number
   end
 end
