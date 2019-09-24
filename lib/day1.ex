@@ -56,8 +56,6 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency_fixed(Enumerable.t()) :: integer
   def resulting_frequency_fixed(frequency_changes) do
-    frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
-
     frequency_changes
     |> Stream.cycle()
     |> Enum.reduce_while({0, %{0 => true}}, fn change, {frequency, reached_frequencies} ->
