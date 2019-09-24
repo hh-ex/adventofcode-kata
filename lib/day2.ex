@@ -25,7 +25,9 @@ defmodule AocKata.Day2 do
   """
   @spec checksum(Enumerable.t()) :: integer
   def checksum(box_ids) do
-    12345
+    two_letters = Enum.filter(box_ids, &has_same_letters(&1, 2)) |> Enum.count()
+    three_letters = Enum.filter(box_ids, &has_same_letters(&1, 3)) |> Enum.count()
+    two_letters * three_letters
   end
 
   @doc """
@@ -46,6 +48,14 @@ defmodule AocKata.Day2 do
   """
   @spec common_letters(Enumerable.t()) :: String.t()
   def common_letters(box_ids) do
-    "abc"
+  end
+
+  def has_same_letters(string, count) do
+    string = String.to_charlist(string)
+
+    Enum.any?(?a..?z, fn letter ->
+      amount = Enum.filter(string, &(&1 == letter)) |> Enum.count()
+      amount == count
+    end)
   end
 end

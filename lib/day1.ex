@@ -25,7 +25,10 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency(Enumerable.t()) :: integer
   def resulting_frequency(frequency_changes) do
-    # TODO implement
+    Enum.reduce(frequency_changes, 0, fn
+      "-" <> num, acc -> acc - String.to_integer(num)
+      "+" <> num, acc -> acc + String.to_integer(num)
+    end)
   end
 
   @doc """
@@ -57,6 +60,19 @@ defmodule AocKata.Day1 do
   def resulting_frequency_fixed(frequency_changes) do
     frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
 
-    # TODO
+    Enum.reduce_while(frequency_changes, {0, [0]}, fn
+      change, {sum, visited} ->
+        sum =
+          case change do
+            "+" <> num -> sum + String.to_integer(num)
+            "-" <> num -> sum - String.to_integer(num)
+          end
+
+        if sum in visited do
+          {:halt, sum}
+        else
+          {:cont, {sum, [sum | visited]}}
+        end
+    end)
   end
 end
