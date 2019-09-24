@@ -56,18 +56,18 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency_fixed(Enumerable.t()) :: integer
   def resulting_frequency_fixed(frequency_changes) do
-    frequency_changes =
-      Stream.repeatedly(fn -> frequency_changes end)
-      |> Stream.flat_map(& &1)
-      |> Stream.cycle()
-      |> Enum.reduce_while({0, %{0 => true}}, fn change, {frequency, reached_frequencies} ->
-        frequency = frequency + String.to_integer(change)
+    frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
 
-        if reached_frequencies[frequency] do
-          {:halt, frequency}
-        else
-          {:cont, {frequency, Map.put(reached_frequencies, frequency, true)}}
-        end
-      end)
+    frequency_changes
+    |> Stream.cycle()
+    |> Enum.reduce_while({0, %{0 => true}}, fn change, {frequency, reached_frequencies} ->
+      frequency = frequency + String.to_integer(change)
+
+      if reached_frequencies[frequency] do
+        {:halt, frequency}
+      else
+        {:cont, {frequency, Map.put(reached_frequencies, frequency, true)}}
+      end
+    end)
   end
 end
