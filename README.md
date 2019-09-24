@@ -1,6 +1,6 @@
 # AocKata
 
-To play, go to the `lib/` folder and solve challenges in the day1-x modules.
+To play, go to the `lib/` folder and solve challenges in the `day*.ex` modules.
 
 To test your solutions, run `mix test`. The example inputs have been added to the tests for your convenience.
 
