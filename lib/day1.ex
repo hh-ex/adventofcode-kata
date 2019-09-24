@@ -25,7 +25,7 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency(Enumerable.t()) :: integer
   def resulting_frequency(frequency_changes) do
-    # TODO implement
+    Enum.reduce frequency_changes, 0, fn(num, sum)->String.to_integer(num)+sum end
   end
 
   @doc """
@@ -55,8 +55,31 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency_fixed(Enumerable.t()) :: integer
   def resulting_frequency_fixed(frequency_changes) do
-    frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
+    #frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
+    agent = History.start_link()
+    Enum.reduce_while(
+      frequency_changes,
+      0,
+      fn(num, sum)->
+        temp = String.to_integer(num)+sum
+        agent.append(temp)
+        {:cont, temp}
+      end)
+  end
+end
 
-    # TODO
+defmodule History do
+  use Agent
+
+  def start_link do
+    Agent.start_link(fn -> [] end, name: __MODULE__)
+  end
+
+  def value do
+    Agent.get(__MODULE__, & &1)
+  end
+
+  def append(latest_acc) do
+    Agent.update(__MODULE__, &(&1 ++ [latest_acc]))
   end
 end
