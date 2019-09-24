@@ -25,8 +25,27 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency(Enumerable.t()) :: integer
   def resulting_frequency(frequency_changes) do
-    # TODO implement
+    # frequency_changes
+    # |> Enum.map(fn x ->
+    #               x |> Integer.parse
+    #                 |> elem(0) end)
+    # |> Enum.sum
+  #  frequency_changes
+    # |> Enum.reduce(0, fn x, acc -> (x |> Integer.parse |> elem(0)) + acc end)
+
+    rf(frequency_changes, 0)
   end
+defp rf([head|tail], acc) do
+  acc = head
+  |> Integer.parse
+  |> elem(0)
+  |> Kernel.+(acc)
+  rf(tail, acc)
+end
+defp rf([], acc), do: acc
+
+
+
 
   @doc """
   You notice that the device repeats the same frequency change list over and over. To calibrate the device, you need to find the first frequency it reaches twice.
@@ -55,8 +74,21 @@ defmodule AocKata.Day1 do
   """
   @spec resulting_frequency_fixed(Enumerable.t()) :: integer
   def resulting_frequency_fixed(frequency_changes) do
-    frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
-
-    # TODO
+    # frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
+    (frequency_changes ++ frequency_changes ++ frequency_changes)
+    |> Enum.map(fn x ->
+                  x |> Integer.parse
+                    |> elem(0) end)
+    |> Enum.reduce_while([0], fn x, [head|_] = acc ->
+        if Enum.member? acc, (x + head) do
+          {:halt, (x + head)}
+        else
+          {:cont, [x + head|acc]}
+        end
+    end)
+    |> case do
+        [head|_] -> head
+        acc -> acc
+       end
   end
 end
