@@ -17,7 +17,7 @@ defmodule AocKata.Day1 do
   -1, -2, -3 results in -6
   Starting with a frequency of zero, what is the resulting frequency after all of the changes in frequency have been applied?
 
-  `frequency_changes` is a stream of the freqency_changes (e.g. `["+1", "-10"]`)
+  `frequency_changes` is a stream of the frequency_changes (e.g. `["+1", "-10"]`)
 
   Hint 1: Streams can be consumed with most functions of the `Enum` module.
 
@@ -49,7 +49,7 @@ defmodule AocKata.Day1 do
   -6, +3, +8, +5, -6 first reaches 5 twice.
   +7, +7, -2, -7, -4 first reaches 14 twice.
 
-  `frequency_changes` is a stream of the freqency_changes (e.g. `["+1", "-10"]`)
+  `frequency_changes` is a stream of the frequency_changes (e.g. `["+1", "-10"]`)
 
   Hint 3: Try `Enum.reduce_while/3`
   """
