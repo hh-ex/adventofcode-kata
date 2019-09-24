@@ -8,6 +8,7 @@ defmodule AocKataTest do
       {~w[+1 +1 -2], 0},
       {~w[-1 -2 -3], -6}
     ]
+
     for {input, output} <- examples do
       assert AocKata.Day1.resulting_frequency(input) == output
     end
@@ -20,7 +21,6 @@ defmodule AocKataTest do
       {~w[-6 +3 +8 +5 -6], 5},
       {~w[+7 +7 -2 -7 -4], 14}
     ]
-
 
     for {input, output} <- examples do
       result = AocKata.Day1.resulting_frequency_fixed(input)

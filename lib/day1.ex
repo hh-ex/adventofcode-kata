@@ -23,7 +23,7 @@ defmodule AocKata.Day1 do
 
   Hint 2: Try solving the problem with `Enum.reduce/3`.
   """
-  @spec resulting_frequency(Enumerable.t) :: integer
+  @spec resulting_frequency(Enumerable.t()) :: integer
   def resulting_frequency(frequency_changes) do
     # TODO implement
   end
@@ -53,9 +53,9 @@ defmodule AocKata.Day1 do
 
   Hint 3: Try `Enum.reduce_while/3`
   """
-  @spec resulting_frequency_fixed(Enumerable.t) :: integer
+  @spec resulting_frequency_fixed(Enumerable.t()) :: integer
   def resulting_frequency_fixed(frequency_changes) do
-    frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(&(&1))
+    frequency_changes = Stream.repeatedly(fn -> frequency_changes end) |> Stream.flat_map(& &1)
 
     # TODO
   end

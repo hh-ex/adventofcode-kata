@@ -1,3 +1,2 @@
 defmodule AocKata do
-
 end

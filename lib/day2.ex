@@ -23,7 +23,7 @@ defmodule AocKata.Day2 do
 
   What is the checksum for your list of box IDs?
   """
-  @spec checksum(Enumerable.t) :: integer
+  @spec checksum(Enumerable.t()) :: integer
   def checksum(box_ids) do
     12345
   end
@@ -44,7 +44,7 @@ defmodule AocKata.Day2 do
 
   What letters are common between the two correct box IDs? (In the example above, this is found by removing the differing character from either ID, producing fgij.)
   """
-  @spec common_letters(Enumerable.t) :: String.t
+  @spec common_letters(Enumerable.t()) :: String.t()
   def common_letters(box_ids) do
     "abc"
   end

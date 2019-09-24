@@ -8,7 +8,7 @@ defmodule Mix.Tasks.Day do
     },
     2 => %{
       1 => {:stream_lines, AocKata.Day2, :checksum},
-      2 => {:stream_lines, AocKata.Day2, :common_letters},
+      2 => {:stream_lines, AocKata.Day2, :common_letters}
     }
   }
 
@@ -16,10 +16,12 @@ defmodule Mix.Tasks.Day do
     case args do
       [] ->
         for {day, parts} <- @days, {part, _} <- parts, do: run(day, part)
+
       [day] ->
         day = String.to_integer(day)
         run(day, 1)
         run(day, 2)
+
       [day, "part", part] ->
         day = String.to_integer(day)
         part = String.to_integer(part)
@@ -29,13 +31,16 @@ defmodule Mix.Tasks.Day do
 
   def run(day, part) do
     filename = filename(day)
+
     if not File.exists?(filename) do
       print_missing_input(day)
     else
       part_def = Map.get(Map.get(@days, day, %{}), part, nil)
+
       case part_def do
         nil ->
           print_missing_part(day, part)
+
         {input_fun, mod, output_fun} ->
           input = apply(__MODULE__, input_fun, [filename])
           output = apply(mod, output_fun, [input])
@@ -56,54 +61,56 @@ defmodule Mix.Tasks.Day do
   end
 
   def print_missing_input(day) do
-    IO.puts [
-      IO.ANSI.red,
+    IO.puts([
+      IO.ANSI.red(),
       "No input file for day ",
-      IO.ANSI.blue,
+      IO.ANSI.blue(),
       inspect(day),
-      IO.ANSI.red,
+      IO.ANSI.red(),
       ". Paste your input from adventofcode.com into ",
-      IO.ANSI.green,
+      IO.ANSI.green(),
       filename(day),
-      IO.ANSI.reset
-    ]
+      IO.ANSI.reset()
+    ])
   end
 
   def print_missing_part(day, part) do
-    IO.puts [
-      IO.ANSI.red,
+    IO.puts([
+      IO.ANSI.red(),
       "No definition found for day ",
-      IO.ANSI.blue,
+      IO.ANSI.blue(),
       inspect(day),
-      IO.ANSI.red,
+      IO.ANSI.red(),
       ", part ",
-      IO.ANSI.blue,
+      IO.ANSI.blue(),
       inspect(part),
-      IO.ANSI.red,
+      IO.ANSI.red(),
       ".",
-      IO.ANSI.reset
-    ]
+      IO.ANSI.reset()
+    ])
   end
 
   def print_result(day, part, result) do
-    part = case part do
-      1 -> "one"
-      2 -> "two"
-    end
-    IO.puts [
+    part =
+      case part do
+        1 -> "one"
+        2 -> "two"
+      end
+
+    IO.puts([
       "The result for ",
-      IO.ANSI.blue,
+      IO.ANSI.blue(),
       "day #{day}",
-      IO.ANSI.reset,
+      IO.ANSI.reset(),
       ",",
-      IO.ANSI.blue,
+      IO.ANSI.blue(),
       " part #{part}",
-      IO.ANSI.reset,
+      IO.ANSI.reset(),
       " is ",
-      IO.ANSI.green,
+      IO.ANSI.green(),
       inspect(result),
-      IO.ANSI.reset,
+      IO.ANSI.reset(),
       "."
-    ]
+    ])
   end
 end
